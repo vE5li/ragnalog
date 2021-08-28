@@ -12,24 +12,20 @@ import java.util.Arrays;
 
 public class App {
 
+    private static final int SNAP_LEN = 65536;
+
     public static void main(String[] args) throws Exception {
 
         Arguments arguments = new Arguments();
         JCommander.newBuilder().addObject(arguments).build().parse(args);
+        System.out.println(arguments);
 
-        PcapHandle handle;
-        int snapLen = 65536;
+        PcapNetworkInterface networkInterface = Pcaps.getDevByName(arguments.deviceName);
+        PcapNetworkInterface.PromiscuousMode mode = PcapNetworkInterface.PromiscuousMode.PROMISCUOUS;
 
-        try {
-            PcapNetworkInterface networkInterface = Pcaps.getDevByName(arguments.deviceName);
-            PcapNetworkInterface.PromiscuousMode mode = PcapNetworkInterface.PromiscuousMode.PROMISCUOUS;
-            handle = networkInterface.openLive(snapLen, mode, arguments.timeout);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("failed to initialize");
-        }
+        try(PcapHandle handle = networkInterface.openLive(SNAP_LEN, mode, arguments.timeout)) {
 
-        while (true) {
+        while (handle.isOpen()) {
             try {
                 Packet packet = handle.getNextPacketEx();
 
@@ -272,11 +268,17 @@ public class App {
                 }
 
             } catch (NullPointerException ignored) {
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-    }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("failed to initialize");
+        }
+        }
 
     public static boolean signatureMatches(byte[] signature, int first, int second) {
         return Arrays.equals(signature, new byte[]{(byte) first, (byte) second});
