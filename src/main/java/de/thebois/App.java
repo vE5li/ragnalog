@@ -1,6 +1,7 @@
 package de.thebois;
 
 import com.beust.jcommander.JCommander;
+import de.thebois.packethandler.reflection.PacketDistributor;
 import org.apache.commons.codec.binary.Hex;
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapNetworkInterface;
@@ -10,11 +11,14 @@ import org.pcap4j.packet.Packet;
 
 import java.util.Arrays;
 
+
 public class App {
 
     private static final int SNAP_LEN = 65536;
 
     public static void main(String[] args) throws Exception {
+
+        PacketDistributor packetDistributor = PacketDistributor.getInstance();
 
         Arguments arguments = new Arguments();
         JCommander.newBuilder().addObject(arguments).build().parse(args);
@@ -55,6 +59,10 @@ public class App {
                 byte[] signature = getSliceOfArray(data, 0, 2);
 
                 if (signatureMatches(signature, 0x30, 0x0A)) {
+
+                    if(!packetDistributor.distribute(data)){
+                        System.out.println("not implemented!");
+                    }
 
                     int playerId = integer4bytes(data, 2);
                     String playerName = stringWithLength(data, 6, 24);
