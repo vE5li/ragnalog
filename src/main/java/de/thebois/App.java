@@ -1,7 +1,6 @@
 package de.thebois;
 
 import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
 import org.apache.commons.codec.binary.Hex;
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapNetworkInterface;
@@ -59,7 +58,7 @@ public class App {
 
                 byte[] signature = getSliceOfArray(data, 0, 2);
 
-                if (signatureMatches(signature, 0x30, 0x0a)) {
+                if (signatureMatches(signature, 0x30, 0x0A)) {
 
                     int playerId = integer4bytes(data, 2);
                     String playerName = stringWithLength(data, 6, 24);
@@ -76,7 +75,7 @@ public class App {
                     printField("guild position", guildPosition, arguments.useColors);
                     printField("???", unknown, arguments.useColors);
 
-                } else if (signatureMatches(signature, 0xdf, 0x0a)) {
+                } else if (signatureMatches(signature, 0xDF, 0x0A)) {
 
                     int npcId = integer4bytes(data, 2);
                     byte[] unknown1 = getSliceOfArray(data, 6, 4);
@@ -87,7 +86,7 @@ public class App {
                     printField("???", unknown1, arguments.useColors);
                     printField("npc name", npcName, arguments.useColors);
 
-                } else if (signatureMatches(signature, 0x8e, 0x00)) {
+                } else if (signatureMatches(signature, 0x8E, 0x00)) {
 
                     int length = integer2bytes(data, 2);
                     String message = stringWithLength(data, 4, length - 4);
@@ -96,7 +95,7 @@ public class App {
                     printField("length", length, arguments.useColors);
                     printField("message", message, arguments.useColors);
 
-                } else if (signatureMatches(signature, 0x8d, 0x00)) {
+                } else if (signatureMatches(signature, 0x8D, 0x00)) {
 
                     int length = integer2bytes(data, 2);
                     int playerId = integer4bytes(data, 4);
@@ -107,7 +106,7 @@ public class App {
                     printField("player id", playerId, arguments.useColors);
                     printField("message", message, arguments.useColors);
 
-                } else if (signatureMatches(signature, 0x7f, 0x01)) {
+                } else if (signatureMatches(signature, 0x7F, 0x01)) {
 
                     int length = integer2bytes(data, 2);
                     String message = stringWithLength(data, 4, length - 4);
@@ -116,7 +115,7 @@ public class App {
                     printField("length", length, arguments.useColors);
                     printField("message", message, arguments.useColors);
 
-                } else if (signatureMatches(signature, 0x9a, 0x00)) {
+                } else if (signatureMatches(signature, 0x9A, 0x00)) {
 
                     int length = integer2bytes(data, 2);
                     String message = stringWithLength(data, 4, length - 4);
@@ -129,7 +128,7 @@ public class App {
 
                     printSignature("message from player in your party", isServerSource, arguments.useColors);
 
-                } else if (signatureMatches(signature, 0xc1, 0x02)) {
+                } else if (signatureMatches(signature, 0xC1, 0x02)) {
 
                     int length = integer2bytes(data, 2);
                     byte[] unknown = getSliceOfArray(data, 4, 4);
@@ -142,7 +141,7 @@ public class App {
                     printField("color (rgb)", color, arguments.useColors);
                     printField("message", message, arguments.useColors);
 
-                } else if (signatureMatches(signature, 0xc3, 0x01)) {
+                } else if (signatureMatches(signature, 0xC3, 0x01)) {
 
                     int length = integer2bytes(data, 2);
                     byte[] unknown0 = getSliceOfArray(data, 4, 1);
@@ -157,7 +156,7 @@ public class App {
                     printField("???", unknown1, arguments.useColors);
                     printField("message", message, arguments.useColors);
 
-                } else if (signatureMatches(signature, 0xd7, 0x00)) {
+                } else if (signatureMatches(signature, 0xD7, 0x00)) {
 
                     int length = integer2bytes(data, 2);
                     byte[] unknown0 =  getSliceOfArray(data, 4, 4);
@@ -177,7 +176,7 @@ public class App {
                     printField("???", unknown2, arguments.useColors);
                     printField("name", name, arguments.useColors);
 
-                } else if (signatureMatches(signature, 0xd8, 0x00)) {
+                } else if (signatureMatches(signature, 0xD8, 0x00)) {
 
                     if (data.length == 6) {
 
@@ -220,7 +219,7 @@ public class App {
                     printField("x position", xPosition, arguments.useColors);
                     printField("y position", yPosition, arguments.useColors);
 
-                } else if (signatureMatches(signature, 0x5f, 0x03)) {
+                } else if (signatureMatches(signature, 0x5F, 0x03)) {
 
                     byte[] unknown = getSliceOfArray(data, 2, 3);
 
@@ -236,7 +235,7 @@ public class App {
                         printField("timestamp", timestamp, arguments.useColors);
                     }
 
-                } else if (signatureMatches(signature, 0x7f, 0x00)) {
+                } else if (signatureMatches(signature, 0x7F, 0x00)) {
 
                     if (arguments.showPing) {
                         byte[] unknown = getSliceOfArray(data, 2, 4);
@@ -333,7 +332,7 @@ public class App {
 
     public static void printField(String name, byte[] value, boolean useColors) {
         if (useColors)
-            System.out.println("  " + name + ": " + green() + binaryString(value) + none());
+            System.out.println("  " + name + ": " + yellow() + binaryString(value) + none());
         else
             System.out.println("    " + name + " : " + binaryString(value));
     }
@@ -352,6 +351,10 @@ public class App {
             System.out.println("    " + name + " : " + value);
     }
 
+    public static String none() {
+        return (char) 27 + "[0m";
+    }
+
     public static String red() {
         return (char) 27 + "[31m";
     }
@@ -360,15 +363,15 @@ public class App {
         return (char) 27 + "[32m";
     }
 
-    public static String cyan() {
-        return (char) 27 + "[36m";
+    public static String yellow() {
+        return (char) 27 + "[33m";
     }
 
     public static String magenta() {
         return (char) 27 + "[35m";
     }
 
-    public static String none() {
-        return (char) 27 + "[0m";
+    public static String cyan() {
+        return (char) 27 + "[36m";
     }
 }
