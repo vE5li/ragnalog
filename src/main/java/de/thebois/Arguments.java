@@ -16,10 +16,10 @@ public class Arguments {
     @Parameter(names = { "-u", "--unknown" }, description = "show unknown packets")
     boolean showUnknown = false;
 
-    @Parameter(names = { "-i", "--incoming" }, description = "show incoming packets")
+    @Parameter(names = { "-i", "--incoming" }, description = "show incoming packets", arity = 1)
     boolean showIncoming = true;
 
-    @Parameter(names = { "-o", "--outgoing" }, description = "show outgoing packets")
+    @Parameter(names = { "-o", "--outgoing" }, description = "show outgoing packets", arity = 1)
     boolean showOutgoing = true;
 
     @Parameter(names = { "-c", "--colors" }, description = "use colored output")
