@@ -12,7 +12,6 @@ import static de.thebois.util.ByteArrayUtil.*;
 import static de.thebois.util.PrintUtils.printField;
 import static de.thebois.util.PrintUtils.printSignature;
 
-
 public class App {
 
     private static final int SNAP_LEN = 65536;
@@ -57,77 +56,14 @@ public class App {
                         continue;
                     }
 
-                    byte[] signature = getSliceOfArray(data, 0, 2);
+                    if (!packetDistributor.distribute(data) && arguments.showUnknown) {
 
-                    if (!packetDistributor.distribute(data)) {
-                        System.out.println("not implemented!");
-                    }
-
-                    if (signatureMatches(signature, 0x09, 0x01)) {
-
-                        printSignature("message from player in your party", isServerSource, arguments.useColors);
-
-                    }  else if (signatureMatches(signature, 0x07, 0x01)) { // fix this
-
-                        int playerId = integer4bytes(data, 2);
-                        int xPosition = integer2bytes(data, 6);
-                        int yPosition = integer2bytes(data, 8);
-
-                        printSignature("player moving", isServerSource, arguments.useColors);
-                        printField("player id", playerId, arguments.useColors);
-                        printField("x position", xPosition, arguments.useColors);
-                        printField("y position", yPosition, arguments.useColors);
-
-                    } else if (signatureMatches(signature, 0x5F, 0x03)) {
-
-                        byte[] unknown = getSliceOfArray(data, 2, 3);
-
-                        printSignature("test", isServerSource, arguments.useColors);
-                        printField("unknown", unknown, arguments.useColors);
-
-                    } else if (signatureMatches(signature, 0x60, 0x03)) {
-
-                        if (arguments.showPing) {
-                            int timestamp = integer4bytes(data, 2);
-
-                            printSignature("ping (every 12 seconds)", isServerSource, arguments.useColors);
-                            printField("timestamp", timestamp, arguments.useColors);
-                        }
-
-                    } else if (signatureMatches(signature, 0x7F, 0x00)) {
-
-                        if (arguments.showPing) {
-                            byte[] unknown = getSliceOfArray(data, 2, 4);
-
-                            printSignature("ping", isServerSource, arguments.useColors);
-                            printField("???", unknown, arguments.useColors);
-                        }
-
-                    } else if (signatureMatches(signature, 0x87, 0x00)) {
-
-                        printSignature("oneself moving", isServerSource, arguments.useColors);
-
-                    } else if (signatureMatches(signature, 0x86, 0x00)) {
-
-                        int playerId = integer4bytes(data, 2);
-                        byte[] unknown1 = getSliceOfArray(data, 6, 4);
-                        byte[] unknown2 = getSliceOfArray(data, 10, 2);
-                        int unknown3 = integer4bytes(data, 12);
-
-                        printSignature("player moving", isServerSource, arguments.useColors);
-                        printField("playerId", playerId, arguments.useColors);
-                        printField("???", unknown1, arguments.useColors);
-                        printField("???", unknown2, arguments.useColors);
-                        printField("timestamp (?)", unknown3, arguments.useColors);
-
-                    } else if (arguments.showUnknown) {
-
+                        byte[] signature = getSliceOfArray(data, 0, 2);
                         byte[] unknown = getSliceOfArray(data, 2, data.length - 2);
 
                         printSignature("unknown", isServerSource, arguments.useColors);
                         printField("signature", signature, arguments.useColors);
                         printField("unknown", unknown, arguments.useColors);
-
                     }
 
                 } catch (NullPointerException ignored) {
@@ -142,5 +78,4 @@ public class App {
             throw new Exception("failed to initialize");
         }
     }
-
 }

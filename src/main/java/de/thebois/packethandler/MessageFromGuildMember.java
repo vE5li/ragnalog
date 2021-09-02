@@ -6,6 +6,7 @@ import static de.thebois.util.PrintUtils.printField;
 import static de.thebois.util.PrintUtils.printSignature;
 
 public class MessageFromGuildMember implements PacketHandler {
+
     @Override
     @PacketSignature({0x7F, 0x01})
     public void handle(byte[] payload) {
@@ -16,6 +17,5 @@ public class MessageFromGuildMember implements PacketHandler {
         printSignature("message from player in your guild", true, false);
         printField("length", length, false);
         printField("message", message, false);
-
     }
 }

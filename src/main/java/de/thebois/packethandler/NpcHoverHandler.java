@@ -5,9 +5,10 @@ import static de.thebois.util.PrintUtils.printField;
 import static de.thebois.util.PrintUtils.printSignature;
 
 public class NpcHoverHandler implements PacketHandler {
+
     @Override
     //TODO: since java does not have unsigned bytes we maybe should just use ints here
-    @PacketSignature({(byte) 0xDF, 0x0A})
+    @PacketSignature({(byte)0xDF, 0x0A})
     public void handle(byte[] payload) {
 
         int npcId = integer4bytes(payload, 2);
@@ -18,6 +19,5 @@ public class NpcHoverHandler implements PacketHandler {
         printField("npc id", npcId, false);
         printField("???", unknown1, false);
         printField("npc name", npcName, false);
-
     }
 }

@@ -7,7 +7,7 @@ import static de.thebois.util.PrintUtils.printSignature;
 public class ServerBroadcastMessageHandler implements PacketHandler {
 
     @Override
-    @PacketSignature({(byte) 0xC3, 0x01})
+    @PacketSignature({(byte)0xC3, 0x01})
     public void handle(byte[] payload) {
 
         int length = integer2bytes(payload, 2);
@@ -17,12 +17,9 @@ public class ServerBroadcastMessageHandler implements PacketHandler {
         String message = stringWithLength(payload, 18, length - 18);
 
         printSignature("message from server in global chat", true, false);
-
         printField("???", unknown0, false);
         printField("color (brg)", color, false);
         printField("???", unknown1, false);
         printField("message", message, false);
-
     }
-
 }

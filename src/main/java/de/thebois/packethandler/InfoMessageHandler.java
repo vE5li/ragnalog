@@ -8,7 +8,7 @@ import static de.thebois.util.PrintUtils.printSignature;
 public class InfoMessageHandler implements PacketHandler {
 
     @Override
-    @PacketSignature({(byte) 0x9A, 0x00})
+    @PacketSignature({(byte)0x9A, 0x00})
     public void handle(byte[] payload) {
 
         int length = integer2bytes(payload, 2);
@@ -17,7 +17,5 @@ public class InfoMessageHandler implements PacketHandler {
         printSignature("info message", true, false);
         printField("length", length, false);
         printField("message", message, false);
-
     }
-
 }

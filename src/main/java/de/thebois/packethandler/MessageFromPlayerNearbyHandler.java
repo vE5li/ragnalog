@@ -6,9 +6,8 @@ import static de.thebois.util.PrintUtils.printSignature;
 
 public class MessageFromPlayerNearbyHandler implements PacketHandler {
 
-
     @Override
-    @PacketSignature({(byte) 0x8D, 0x00})
+    @PacketSignature({(byte)0x8D, 0x00})
     public void handle(byte[] payload) {
 
         int length = integer2bytes(payload, 2);
@@ -19,7 +18,5 @@ public class MessageFromPlayerNearbyHandler implements PacketHandler {
         printField("length", length, false);
         printField("player id", playerId, false);
         printField("message", message, false);
-
-
     }
 }

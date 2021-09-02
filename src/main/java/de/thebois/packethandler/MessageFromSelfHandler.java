@@ -6,8 +6,9 @@ import static de.thebois.util.PrintUtils.printField;
 import static de.thebois.util.PrintUtils.printSignature;
 
 public class MessageFromSelfHandler implements PacketHandler {
+
     @Override
-    @PacketSignature({(byte) 0x8E, 0x00})
+    @PacketSignature({(byte)0x8E, 0x00})
     public void handle(byte[] payload) {
 
         int length = integer2bytes(payload, 2);
@@ -16,6 +17,5 @@ public class MessageFromSelfHandler implements PacketHandler {
         printSignature("message from oneself", true, false);
         printField("length", length, false);
         printField("message", message, false);
-
     }
 }
