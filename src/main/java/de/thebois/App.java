@@ -67,39 +67,7 @@ public class App {
 
                         printSignature("message from player in your party", isServerSource, arguments.useColors);
 
-                    } else if (signatureMatches(signature, 0xD8, 0x00)) {
-
-                        if (data.length == 6) {
-
-                            byte[] unknown0 = getSliceOfArray(data, 2, 2);
-                            int roomId = integer2bytes(data, 4);
-
-                            printSignature("delete chat room", isServerSource, arguments.useColors);
-                            printField("entity id (?)", unknown0, arguments.useColors);
-                            printField("room id", roomId, arguments.useColors);
-                            continue;
-                        }
-
-                        //int length = integer2bytes(data, 2);
-                        //byte[] unknown1 = getSliceOfArray(data, 4, 4);
-
-                        byte[] unknown0 = getSliceOfArray(data, 2, 2);
-                        int roomId = integer2bytes(data, 4);
-                        byte[] unknown1 = getSliceOfArray(data, 6, 4);
-                        byte[] unknown2 = getSliceOfArray(data, 10, 12);
-
-                        // sometimes extends up to 33 instead of 22 ? (at 8 for players?)
-                        String name = stringWithLength(data, 22, data.length - 22); // replace with length
-                        // string is NOT zero terminated
-
-                        printSignature("change chat room", isServerSource, arguments.useColors);
-                        printField("???", unknown0, arguments.useColors);
-                        printField("room id", roomId, arguments.useColors);
-                        printField("entity id (?)", unknown1, arguments.useColors);
-                        printField("???", unknown2, arguments.useColors);
-                        printField("name", name, arguments.useColors);
-
-                    } else if (signatureMatches(signature, 0x07, 0x01)) { // fix this
+                    }  else if (signatureMatches(signature, 0x07, 0x01)) { // fix this
 
                         int playerId = integer4bytes(data, 2);
                         int xPosition = integer2bytes(data, 6);

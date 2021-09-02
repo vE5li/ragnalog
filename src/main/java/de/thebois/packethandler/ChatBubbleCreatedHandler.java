@@ -5,7 +5,7 @@ import static de.thebois.util.ByteArrayUtil.stringWithLength;
 import static de.thebois.util.PrintUtils.printField;
 import static de.thebois.util.PrintUtils.printSignature;
 
-public class CharBubbleCreatedHandler implements PacketHandler {
+public class ChatBubbleCreatedHandler implements PacketHandler {
 
     @Override
     @PacketSignature({})
