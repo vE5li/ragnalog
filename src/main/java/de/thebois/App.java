@@ -2,11 +2,6 @@ package de.thebois;
 
 import com.beust.jcommander.JCommander;
 import de.thebois.packethandler.reflection.PacketDistributor;
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import org.pcap4j.core.PcapHandle;
 import org.pcap4j.core.PcapNetworkInterface;
 import org.pcap4j.core.Pcaps;
@@ -17,35 +12,20 @@ import static de.thebois.util.ByteArrayUtil.*;
 import static de.thebois.util.PrintUtils.printField;
 import static de.thebois.util.PrintUtils.printSignature;
 
-public class App extends Application {
+public class App {
 
     private static final int SNAP_LEN = 65536;
 
     public static void main(String[] args) throws Exception {
-        launch(args);
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-
-        Arguments arguments = new Arguments();
-        String[] argumentArray = getParameters().getRaw().toArray(new String[] {});
-        JCommander.newBuilder().addObject(arguments).build().parse(argumentArray);
 
         PacketDistributor packetDistributor = PacketDistributor.getInstance();
 
+        Arguments arguments = new Arguments();
+        JCommander.newBuilder().addObject(arguments).build().parse(args);
+        System.out.println(arguments);
+
         PcapNetworkInterface networkInterface = Pcaps.getDevByName(arguments.deviceName);
         PcapNetworkInterface.PromiscuousMode mode = PcapNetworkInterface.PromiscuousMode.PROMISCUOUS;
-
-        Canvas canvas = new Canvas(500, 500);
-        VBox vbox = new VBox(canvas);
-        Scene scene = new Scene(vbox);
-
-        stage.setScene(scene);
-        stage.show();
-
-        canvas.getGraphicsContext2D().strokeLine(0, 0, 500, 500);
-
 
         try (PcapHandle handle = networkInterface.openLive(SNAP_LEN, mode, arguments.timeout)) {
 
