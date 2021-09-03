@@ -17,7 +17,7 @@ public class PacketDistributor {
         getPacketHandlers().forEach(handlerClass -> {
             try {
                 PacketHandler instance = handlerClass.newInstance();
-                Method handleMethod = handlerClass.getDeclaredMethod("handle", byte[].class);
+                Method handleMethod = handlerClass.getDeclaredMethod("handle", byte[].class, boolean.class);
                 if (handleMethod.isAnnotationPresent(PacketSignature.class)) {
                     ByteArrayWrapper key = new ByteArrayWrapper(handleMethod.getAnnotation(PacketSignature.class).value());
                     specificHandlers.put(key, instance);
@@ -30,11 +30,11 @@ public class PacketDistributor {
         });
     }
 
-    public boolean distribute(byte[] packet) {
+    public boolean distribute(byte[] packet, boolean useColors) {
         ByteArrayWrapper key = new ByteArrayWrapper(new byte[]{packet[0], packet[1]});
-        catchAllHandlers.forEach(h -> h.handle(packet));
+        catchAllHandlers.forEach(h -> h.handle(packet, useColors));
         if (specificHandlers.containsKey(key)) {
-            specificHandlers.get(key).handle(packet);
+            specificHandlers.get(key).handle(packet, useColors);
             return true;
         }
         return false;

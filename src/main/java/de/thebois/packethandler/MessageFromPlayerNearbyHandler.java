@@ -8,15 +8,15 @@ public class MessageFromPlayerNearbyHandler implements PacketHandler {
 
     @Override
     @PacketSignature({(byte)0x8D, 0x00})
-    public void handle(byte[] payload) {
+    public void handle(byte[] payload, boolean useColors) {
 
         int length = integer2bytes(payload, 2);
         int playerId = integer4bytes(payload, 4);
         String message = stringWithLength(payload, 8, length - 8);
 
-        printSignature("message from player nearby", true, false);
-        printField("length", length, false);
-        printField("player id", playerId, false);
-        printField("message", message, false);
+        printSignature("message from player nearby", true, useColors);
+        printField("length", length, useColors);
+        printField("player id", playerId, useColors);
+        printField("message", message, useColors);
     }
 }

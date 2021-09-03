@@ -1,5 +1,5 @@
 package de.thebois.packethandler;
 
 public interface PacketHandler {
-    public void handle(byte[] payload);
+    public void handle(byte[] payload, boolean useColors);
 }

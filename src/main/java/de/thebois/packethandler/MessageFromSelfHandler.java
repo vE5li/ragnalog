@@ -9,13 +9,13 @@ public class MessageFromSelfHandler implements PacketHandler {
 
     @Override
     @PacketSignature({(byte)0x8E, 0x00})
-    public void handle(byte[] payload) {
+    public void handle(byte[] payload, boolean useColors) {
 
         int length = integer2bytes(payload, 2);
         String message = stringWithLength(payload, 4, length - 4);
 
-        printSignature("message from oneself", true, false);
-        printField("length", length, false);
-        printField("message", message, false);
+        printSignature("message from oneself", true, useColors);
+        printField("length", length, useColors);
+        printField("message", message, useColors);
     }
 }

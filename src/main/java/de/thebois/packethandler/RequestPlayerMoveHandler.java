@@ -8,11 +8,11 @@ public class RequestPlayerMoveHandler implements PacketHandler {
 
     @Override
     @PacketSignature({0x5F, 0x03})
-    public void handle(byte[] payload) {
+    public void handle(byte[] payload, boolean useColors) {
 
         byte[] unknown = getSliceOfArray(payload, 2, 3);
 
-        printSignature("request player move", false, false);
-        printField("encrypted coordinates", unknown, false);
+        printSignature("request player move", false, useColors);
+        printField("encrypted coordinates", unknown, useColors);
     }
 }

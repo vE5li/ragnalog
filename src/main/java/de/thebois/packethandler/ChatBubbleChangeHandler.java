@@ -8,7 +8,7 @@ public class ChatBubbleChangeHandler implements PacketHandler {
 
     @Override
     @PacketSignature({(byte)0xD8, 0x00})
-    public void handle(byte[] payload) {
+    public void handle(byte[] payload, boolean useColors) {
 
         if (payload.length == 6) { // handles by delete handler
 
@@ -31,11 +31,11 @@ public class ChatBubbleChangeHandler implements PacketHandler {
         String name = stringWithLength(payload, 22, payload.length - 22); // replace with length
         // string is NOT zero terminated
 
-        printSignature("change chat room", true, false);
-        printField("???", unknown0, false);
-        printField("room id", roomId, false);
-        printField("entity id (?)", unknown1, false);
-        printField("???", unknown2, false);
-        printField("name", name, false);
+        printSignature("change chat room", true, useColors);
+        printField("???", unknown0, useColors);
+        printField("room id", roomId, useColors);
+        printField("entity id (?)", unknown1, useColors);
+        printField("???", unknown2, useColors);
+        printField("name", name, useColors);
     }
 }

@@ -8,8 +8,8 @@ public class PartyChatMessageHandler implements PacketHandler {
 
     @Override
     @PacketSignature({0x09, 0x01})
-    public void handle(byte[] payload) {
+    public void handle(byte[] payload, boolean useColors) {
 
-        printSignature("message from player in your party", true, false);
+        printSignature("message from player in your party", true, useColors);
     }
 }

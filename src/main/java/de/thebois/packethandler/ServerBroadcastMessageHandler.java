@@ -8,7 +8,7 @@ public class ServerBroadcastMessageHandler implements PacketHandler {
 
     @Override
     @PacketSignature({(byte)0xC3, 0x01})
-    public void handle(byte[] payload) {
+    public void handle(byte[] payload, boolean useColors) {
 
         int length = integer2bytes(payload, 2);
         byte[] unknown0 = getSliceOfArray(payload, 4, 1);
@@ -16,10 +16,10 @@ public class ServerBroadcastMessageHandler implements PacketHandler {
         byte[] unknown1 = getSliceOfArray(payload, 8, 10);
         String message = stringWithLength(payload, 18, length - 18);
 
-        printSignature("message from server in global chat", true, false);
-        printField("???", unknown0, false);
-        printField("color (brg)", color, false);
-        printField("???", unknown1, false);
-        printField("message", message, false);
+        printSignature("message from server in global chat", true, useColors);
+        printField("???", unknown0, useColors);
+        printField("color (brg)", color, useColors);
+        printField("???", unknown1, useColors);
+        printField("message", message, useColors);
     }
 }

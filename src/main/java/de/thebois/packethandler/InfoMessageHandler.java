@@ -9,13 +9,13 @@ public class InfoMessageHandler implements PacketHandler {
 
     @Override
     @PacketSignature({(byte)0x9A, 0x00})
-    public void handle(byte[] payload) {
+    public void handle(byte[] payload, boolean useColors) {
 
         int length = integer2bytes(payload, 2);
         String message = stringWithLength(payload, 4, length - 4);
 
-        printSignature("info message", true, false);
-        printField("length", length, false);
-        printField("message", message, false);
+        printSignature("info message", true, useColors);
+        printField("length", length, useColors);
+        printField("message", message, useColors);
     }
 }

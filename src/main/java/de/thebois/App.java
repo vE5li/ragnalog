@@ -56,7 +56,7 @@ public class App {
                         continue;
                     }
 
-                    if (!packetDistributor.distribute(data) && arguments.showUnknown) {
+                    if (!packetDistributor.distribute(data, arguments.useColors) && arguments.showUnknown) {
 
                         byte[] signature = getSliceOfArray(data, 0, 2);
                         byte[] unknown = getSliceOfArray(data, 2, data.length - 2);

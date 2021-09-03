@@ -8,7 +8,7 @@ public class EntityMoveHandler implements PacketHandler {
 
     @Override
     @PacketSignature({(byte)0x86, 0x00})
-    public void handle(byte[] payload) {
+    public void handle(byte[] payload, boolean useColors) {
 
         int entityId = integer4bytes(payload, 2);
         byte[] coordinates = getSliceOfArray(payload, 6, 5);
@@ -20,12 +20,12 @@ public class EntityMoveHandler implements PacketHandler {
         int yPositionFrom = (Byte.toUnsignedInt(coordinates[2]) >> 4) | ((Byte.toUnsignedInt(coordinates[1]) & 0b111111) << 4);
         int xPositionFrom = (Byte.toUnsignedInt(coordinates[1]) >> 6) | (Byte.toUnsignedInt(coordinates[0]) << 2);
 
-        printSignature("entity moving", true, false);
-        printField("entity id", entityId, false);
-        printField("x position from", xPositionFrom, false);
-        printField("y position from", yPositionFrom, false);
-        printField("x position to", xPositionTo, false);
-        printField("y position to", yPositionTo, false);
-        printField("timestamp", timestamp, false);
+        printSignature("entity moving", true, useColors);
+        printField("entity id", entityId, useColors);
+        printField("x position from", xPositionFrom, useColors);
+        printField("y position from", yPositionFrom, useColors);
+        printField("x position to", xPositionTo, useColors);
+        printField("y position to", yPositionTo, useColors);
+        printField("timestamp", timestamp, useColors);
     }
 }
